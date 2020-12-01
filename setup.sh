@@ -3,12 +3,13 @@
 ## Any setup commands on new system
 
 # Get distro
-DISTRO="$(awk -F= '/^ID/{print $2}' /etc/os-release)"
+DISTRO="$(awk -F= '/^ID=/{print $2}' /etc/os-release)"
 
 # Set install command
 INSTALL_CMD=$(case "$DISTRO" in
     ("fedora") printf "dnf install" ;;
     ("debian") printf "apt install" ;;
+    ("ubuntu") printf "apt install" ;;
 esac)
 
 if [ "$INSTALL_CMD" == "" ]; then
