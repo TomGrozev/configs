@@ -78,19 +78,6 @@ function! JavaScriptFold()
 endfunction
 
 
-""""""""""""""""""""""""""""""
-"
-" CoffeeScript section
-"
-"""""""""""""""""""""""""""""""
-function! CoffeeScriptFold()
-    setl foldmethod=indent
-    setl foldlevelstart=1
-endfunction
-au FileType coffee call CoffeeScriptFold()
-
-au FileType gitcommit call setpos('.', [0, 1, 1, 0])
-
 
 """"""""""""""""""""""""""""""
 "
@@ -108,10 +95,21 @@ endif
 
 """"""""""""""""""""""""""""""
 "
-" Twig section
+" JSON section
 "
 """"""""""""""""""""""""""""""
-autocmd BufRead *.twig set syntax=html filetype=html
+au! BufRead,BufNewFile *.json set filetype=json
+
+
+augroup json_autocmd
+  autocmd!
+  autocmd FileType json set autoindent
+  autocmd FileType json set formatoptions=tcq2l
+  autocmd FileType json set textwidth=78 shiftwidth=2
+  autocmd FileType json set softtabstop=2 tabstop=8
+  autocmd FileType json set expandtab
+  autocmd FileType json set foldmethod=syntax
+augroup END
 
 
 """"""""""""""""""""""""""""""

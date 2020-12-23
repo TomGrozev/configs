@@ -148,6 +148,16 @@ endif
 " CSS autocomplete
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 
+" Set number display to hybrid
+set number
+set relativenumber
+
+augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
@@ -162,12 +172,12 @@ if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
 
-try
-    colorscheme nord
-catch
-endtry
-
 set background=dark
+
+" Pmenu colours
+highlight Pmenu ctermfg=15 ctermbg=0 guifg=#81a1c1 guibg=#3b4252
+
+" Colour scheme is loaded by pathogen, so must be set in plugins file
 
 " Disable scrollbars
 set guioptions-=r

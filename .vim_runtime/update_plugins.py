@@ -1,3 +1,6 @@
+# This simple update script was taken from https://github.com/amix/vimrc.
+# It works well so yay opensource!!!
+
 try:
     import concurrent.futures as futures
 except ImportError:
@@ -6,79 +9,73 @@ except ImportError:
     except ImportError:
         futures = None
 
-import zipfile
+import subprocess
 import shutil
-import tempfile
-import requests
 
 from os import path
 
+# Disabled plugins
+# mayansmoke https://github.com/vim-scripts/mayansmoke
+# open_file_under_cursor.vim https://github.com/amix/open_file_under_cursor.vim
+# vim-bundle-mako https://github.com/sophacles/vim-bundle-mako
+# vim-coffee-script https://github.com/kchmck/vim-coffee-script
+# vim-colors-solarized https://github.com/altercation/vim-colors-solarized
+# vim-less https://github.com/groenewege/vim-less
+# vim-pyte https://github.com/therubymug/vim-pyte
+# goyo.vim https://github.com/junegunn/goyo.vim
+# vim-zenroom2 https://github.com/amix/vim-zenroom2
+# gruvbox https://github.com/morhetz/gruvbox
+# vim-pug https://github.com/digitaltoad/vim-pug
+# rust.vim https://github.com/rust-lang/rust.vim
+# vim-gist https://github.com/mattn/vim-gist
+# vim-ruby https://github.com/vim-ruby/vim-ruby
+
 # --- Globals ----------------------------------------------
 PLUGINS = """
-auto-pairs https://github.com/jiangmiao/auto-pairs
-ale https://github.com/w0rp/ale
-vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack
-ack.vim https://github.com/mileszs/ack.vim
-bufexplorer https://github.com/jlanzarotta/bufexplorer
-ctrlp.vim https://github.com/ctrlpvim/ctrlp.vim
-mayansmoke https://github.com/vim-scripts/mayansmoke
+emmet-vim https://github.com/mattn/emmet-vim
 nerdtree https://github.com/scrooloose/nerdtree
+vim-devicons https://github.com/ryanoasis/vim-devicons
+vim-gitgutter https://github.com/airblade/vim-gitgutter
+vim-fugitive https://github.com/tpope/vim-fugitive
+vim-elixir https://github.com/elixir-editors/vim-elixir
+ale https://github.com/w0rp/ale
+vim-surround https://github.com/tpope/vim-surround
+lightline.vim https://github.com/itchyny/lightline.vim
+vim-visual-multi https://github.com/mg979/vim-visual-multi
+nord-vim https://github.com/arcticicestudio/nord-vim
+ctrlp.vim https://github.com/ctrlpvim/ctrlp.vim
+ack.vim https://github.com/mileszs/ack.vim
+auto-pairs https://github.com/jiangmiao/auto-pairs
+vim-yankstack https://github.com/maxbrunsfeld/vim-yankstack
+bufexplorer https://github.com/jlanzarotta/bufexplorer
 nginx.vim https://github.com/chr4/nginx.vim
-open_file_under_cursor.vim https://github.com/amix/open_file_under_cursor.vim
-tlib https://github.com/vim-scripts/tlib
-vim-addon-mw-utils https://github.com/MarcWeber/vim-addon-mw-utils
-vim-bundle-mako https://github.com/sophacles/vim-bundle-mako
-vim-coffee-script https://github.com/kchmck/vim-coffee-script
-vim-colors-solarized https://github.com/altercation/vim-colors-solarized
+sslsecure.vim https://github.com/chr4/sslsecure.vim
 vim-indent-object https://github.com/michaeljsmith/vim-indent-object
-vim-less https://github.com/groenewege/vim-less
-vim-pyte https://github.com/therubymug/vim-pyte
 vim-snipmate https://github.com/garbas/vim-snipmate
 vim-snippets https://github.com/honza/vim-snippets
-vim-surround https://github.com/tpope/vim-surround
 vim-expand-region https://github.com/terryma/vim-expand-region
-vim-multiple-cursors https://github.com/terryma/vim-multiple-cursors
-vim-fugitive https://github.com/tpope/vim-fugitive
-goyo.vim https://github.com/junegunn/goyo.vim
-vim-zenroom2 https://github.com/amix/vim-zenroom2
 vim-repeat https://github.com/tpope/vim-repeat
 vim-commentary https://github.com/tpope/vim-commentary
-vim-gitgutter https://github.com/airblade/vim-gitgutter
-gruvbox https://github.com/morhetz/gruvbox
 vim-flake8 https://github.com/nvie/vim-flake8
-vim-pug https://github.com/digitaltoad/vim-pug
-lightline.vim https://github.com/itchyny/lightline.vim
-lightline-ale https://github.com/maximbaz/lightline-ale
 vim-abolish https://github.com/tpope/tpope-vim-abolish
-rust.vim https://github.com/rust-lang/rust.vim
 vim-markdown https://github.com/plasticboy/vim-markdown
-vim-gist https://github.com/mattn/vim-gist
-vim-ruby https://github.com/vim-ruby/vim-ruby
 typescript-vim https://github.com/leafgarland/typescript-vim
 vim-javascript https://github.com/pangloss/vim-javascript
 vim-python-pep8-indent https://github.com/Vimjas/vim-python-pep8-indent
+YouCompleteMe https://github.com/ycm-core/YouCompleteMe
+vim-easymotion https://github.com/easymotion/vim-easymotion
+vim-json https://github.com/elzr/vim-json
+vim-endwise https://github.com/tpope/vim-endwise
+indentLine https://github.com/Yggdroot/indentLine
+tagbar https://github.com/majutsushi/tagbar
+tlib https://github.com/vim-scripts/tlib
+vim-addon-mw-utils https://github.com/MarcWeber/vim-addon-mw-utils
 """.strip()
 
-GITHUB_ZIP = "%s/archive/master.zip"
+SOURCE_DIR = path.join(path.dirname(__file__), "plugins")
 
-SOURCE_DIR = path.join(path.dirname(__file__), "sources_non_forked")
-
-
-def download_extract_replace(plugin_name, zip_path, temp_dir, source_dir):
-    temp_zip_path = path.join(temp_dir, plugin_name)
-
-    # Download and extract file in temp dir
-    req = requests.get(zip_path)
-    open(temp_zip_path, "wb").write(req.content)
-
-    zip_f = zipfile.ZipFile(temp_zip_path)
-    zip_f.extractall(temp_dir)
-
-    plugin_temp_path = path.join(
-        temp_dir, path.join(temp_dir, "%s-master" % plugin_name)
-    )
-
-    # Remove the current plugin and replace it with the extracted
+def download_extract_replace(plugin_name, github_url, source_dir):
+    # remove the current plugin and replace it with the extracted
     plugin_dest_path = path.join(source_dir, plugin_name)
 
     try:
@@ -86,19 +83,19 @@ def download_extract_replace(plugin_name, zip_path, temp_dir, source_dir):
     except OSError:
         pass
 
-    shutil.move(plugin_temp_path, plugin_dest_path)
-    print("Updated {0}".format(plugin_name))
+    # clone repos
+    subs = subprocess.Popen(["git", "clone", "--recurse-submodules", "-j8", "--quiet", github_url, plugin_dest_path])
+    subs.wait()
+
+    print("updated {0}".format(plugin_name))
 
 
 def update(plugin):
     name, github_url = plugin.split(" ")
-    zip_path = GITHUB_ZIP % github_url
-    download_extract_replace(name, zip_path, temp_directory, SOURCE_DIR)
+    download_extract_replace(name, github_url, SOURCE_DIR)
 
 
 if __name__ == "__main__":
-    temp_directory = tempfile.mkdtemp()
-
     try:
         if futures:
             with futures.ThreadPoolExecutor(16) as executor:
@@ -106,4 +103,4 @@ if __name__ == "__main__":
         else:
             [update(x) for x in PLUGINS.splitlines()]
     finally:
-        shutil.rmtree(temp_directory)
+        print("All plugins updated :)")

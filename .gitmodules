@@ -1,9 +1,6 @@
 [submodule ".zplug"]
 	path = .zplug
 	url = https://github.com/zplug/zplug
-[submodule ".vim_runtime"]
-	path = .vim_runtime
-	url = https://github.com/amix/vimrc
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
 	url = https://github.com/ohmyzsh/ohmyzsh
