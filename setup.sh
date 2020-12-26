@@ -1,29 +1,54 @@
 #!/bin/bash
 
 # Packages to install
-PACKAGES="python3 python3-pip python3-setuptools xclip zsh neovim thefuck autojump bat curl gcc make cmake autoconf automake python3-docutils nodejs npm golang default-jdk"
+PACKAGES="python3 python3-pip python3-setuptools xclip zsh neovim thefuck autojump bat curl gcc make cmake autoconf automake python3-docutils mono-complete nodejs npm golang default-jdk"
 DNF_PACKAGES="$PACKAGES python3-devel pkgconfig libseccomp-devel jansson-devel libyaml-devel libxml2-devel gcc-c++"
 DEBIAN_PACKAGES="$PACKAGES python3-dev pkg-config libseccomp-dev libjansson-dev libyaml-dev libxml2-dev build-essential"
+BREW_PACKAGES="python3 xclip zsh neovim thefuck autojump bat curl gcc make cmake autoconf automake nodejs npm mono golang pkg-config"
 
 ## Any setup commands on new system
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=linux;;
+    Darwin*)    machine=mac;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
 
-# Get distro
-DISTRO="$(awk -F= '/^ID=/{print $2}' /etc/os-release)"
-printf "You are using $DISTRO\n\n"
+if [ "$machine" == "linux" ]; then
+    # Get distro
+    DISTRO="$(awk -F= '/^ID=/{print $2}' /etc/os-release)"
+    printf "You are using $DISTRO\n\n"
 
-# Set install command
-INSTALL_CMD=$(case "$DISTRO" in
-    ("fedora") printf "dnf install -y $DNF_PACKAGES" ;;
-    ("debian") printf "apt install -y $DEBIAN_PACKAGES" ;;
-    ("ubuntu") printf "apt install -y $DEBIAN_PACKAGES" ;;
-esac)
+    # Set install command
+    INSTALL_CMD=$(case "$DISTRO" in
+        ("fedora") printf "dnf install -y $DNF_PACKAGES" ;;
+        ("debian") printf "apt install -y $DEBIAN_PACKAGES" ;;
+        ("ubuntu") printf "apt install -y $DEBIAN_PACKAGES" ;;
+    esac)
 
-if [ "$INSTALL_CMD" == "" ]; then
-    printf "Unknown distro $DISTRO" >&2
-    exit 1
+    if [ "$INSTALL_CMD" == "" ]; then
+        printf "Unknown distro $DISTRO" >&2
+        exit 1
+    fi
+
+    INSTALL_CMD="sudo $INSTALL_CMD"
+elif [ "$machine" == "mac" ]; then
+    # Install homebrew
+    command -v brew >/dev/null 2>&1 || { echo >&2 "Installing Homebrew Now"; \
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; }
+
+    # Ensure xcode build tools are innstalled
+    check=$((xcode-\select --install) 2>&1)
+    echo $check
+    str="xcode-select: note: install requested for command line developer tools"
+    while [[ "$check" == "$str" ]];
+    do
+      osascript -e 'tell app "System Events" to display dialog "xcode command-line tools missing." buttons "OK" default button 1 with title "xcode command-line tools"'
+      exit;
+    done
+
+    INSTALL_CMD="brew install $BREW_PACKAGES"
 fi
-
-INSTALL_CMD="sudo $INSTALL_CMD"
 
 # Install some useful packages
 printf "~~> Installing packages\n"
@@ -52,7 +77,7 @@ printf "Fonts installed\n\n"
 
 # Install ctags
 if [[ -f "/usr/local/bin/ctags" ]]; then
-    printf "[[ Ctags already installed ]]\n"
+    printf "[[ Ctags already installed ]]\n\n"
 else
     printf "~~> Installing Ctags\n"
     git clone https://github.com/universal-ctags/ctags /tmp/ctags &> /dev/null
