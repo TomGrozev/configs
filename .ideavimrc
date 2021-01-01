@@ -1,0 +1,5 @@
+source ~/.vimrc
+
+# Plugins
+set multiple-cursors
+set easymotion
