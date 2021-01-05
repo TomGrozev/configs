@@ -146,6 +146,8 @@ read -p "Setup SSH Keys? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     printf "\n~~> Setting up SSH\n"
 
+    if [ "$git_email" == "" ]; then read -p "Enter your email: " git_email; fi
+
     SSH_KEY_PATH="$HOME/.ssh"
     if [ -e $SSH_KEY_PATH/id_rsa.pub ]; then
         printf "Already have an SSH key, using that.\n"
@@ -189,7 +191,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
         install -d ${HOME}/bin
         curl -sL ${TOOLBOX_URL} | tar xvz --directory=${HOME}/bin --strip-components=1
 
-        $(jetbrains-toolbox)
+        $(${HOME}/bin/jetbrains-toolbox)
     fi
 
     #mkdir -p $toolbox_path/toolbox
@@ -202,8 +204,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     #    ln -s $toolbox_path/toolbox ${HOME}/.local/share/JetBrains/Toolbox
     #fi
 
-    printf "Set install location to '$toolbox_path/lib' and the shell scripts location to '$toolbox_path/bin'"
+    config='{ "privacy_policy": { "eua_accepted_version": "1.2" }, "install_location": "'${toolbox_path}'/lib", "shell_scripts": { "enabled": true, "location": "'${toolbox_path}'/bin" }, "statistics": { "allow": false }, "update": { "filter": { "quality_filter": { "order_value": 10000 } } } }'
 
+    echo $config > ${HOME}/.local/share/JetBrains/Toolbox/.settings.json
+
+    echo "Jetbrains installed successfully"
 fi
 
 printf "\n\n"
@@ -250,5 +255,10 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 printf "\n\n"
+
+# Use ZSH
+if [ "$SHELL" != "/bin/zsh" ]; then
+    zsh
+fi
 
 printf "All done :D\n"
