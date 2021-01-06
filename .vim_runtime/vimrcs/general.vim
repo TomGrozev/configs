@@ -50,6 +50,10 @@ cnoreabbrev help vert help
 let mapleader = ','
 let g:mapleader = ','
 
+" Faster exiting
+imap jk <Esc>
+imap kj <Esc>
+
 " Fast saving
 nmap <leader>w :w!<cr>
 
