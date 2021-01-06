@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Packages to install
-PACKAGES="python3 python3-pip python3-setuptools xclip zsh tmux neovim thefuck autojump bat curl gcc make cmake autoconf automake python3-docutils mono-complete nodejs npm golang default-jdk"
+PACKAGES="python3 python3-pip python3-setuptools xclip zsh tmux neovim thefuck autojump bat curl gcc make cmake autoconf automake python3-docutils mono-complete nodejs npm default-jdk"
 DNF_PACKAGES="$PACKAGES python3-devel pkgconfig libseccomp-devel jansson-devel libyaml-devel libxml2-devel gcc-c++"
 DEBIAN_PACKAGES="$PACKAGES python3-dev pkg-config libseccomp-dev libjansson-dev libyaml-dev libxml2-dev build-essential"
-BREW_PACKAGES="python3 xclip zsh tmux neovim thefuck autojump bat curl gcc make cmake autoconf automake nodejs npm mono golang pkg-config"
+BREW_PACKAGES="python3 xclip zsh tmux neovim thefuck autojump bat curl gcc make cmake autoconf automake nodejs npm mono pkg-config"
 
 ## Any setup commands on new system
 unameOut="$(uname -s)"
@@ -116,6 +116,13 @@ printf "Shell Plugins installed\n\n"
 printf "~~> Installing Vim Plugins\n"
 python3 $HOME/.vim_runtime/update_plugins.py
 printf "Vim Plugins installed\n\n"
+
+# Install golang
+printf "~~> Installing Golang\n"
+export GOROOT=/usr/lib/go
+export GOPATH=$HOME/go
+wget -q -O - https://raw.githubusercontent.com/canha/golang-tools-install-script/master/goinstall.sh | bash
+printf "Golang installed\n\n"
 
 # Setup youcompleteme
 printf "~~> Installing YouCompleteMe\n"
