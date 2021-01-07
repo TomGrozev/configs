@@ -17,11 +17,19 @@
 " 
 " Sections:
 " 1. General settings
-" 
-" 
-" 
-" 
-" 
+" 2. User Interface
+" 3. Colour scheme and fonts
+" 4. Files and backups
+" 5. Text managements
+" 6. Searching
+" 7. Tab management
+" 8. Window management
+" 9. Buffer management
+" 10. Editor mappings
+" 11. Spell checking
+" 12. Misc
+" 13. Command mappings
+" 14. Helper functions
 " 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
