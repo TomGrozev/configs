@@ -107,7 +107,11 @@ source $ZSH/oh-my-zsh.sh
 
 eval $(thefuck --alias)
 
-export TERM=xterm-256color
+#export TERM=xterm-256color
+export TERM=rxvt-unicode-256color
+
+# Load dir colours
+test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
 source ~/.zplug/init.zsh
 

@@ -1,0 +1,83 @@
+! Nord colours
+#define nord0 #2E3440
+#define nord1 #3B4252
+#define nord2 #434C5E
+#define nord3 #4C566A
+#define nord4 #D8DEE9
+#define nord5 #E5E9F0
+#define nord6 #ECEFF4
+#define nord7 #8FBCBB
+#define nord8 #88C0D0
+#define nord9 #81A1C1
+#define nord10 #5E81AC
+#define nord11 #BF616A
+#define nord12 #D08770
+#define nord13 #EBCB8B
+#define nord14 #A3BE8C
+#define nord15 #B48EAD
+
+*.foreground:   nord4
+*.background:   nord0
+*.cursorColor:  nord4
+*fading: 35
+*fadeColor: nord3
+
+*.color0: nord1
+*.color1: nord11
+*.color2: nord14
+*.color3: nord13
+*.color4: nord9
+*.color5: nord15
+*.color6: nord8
+*.color7: nord5
+*.color8: nord3
+*.color9: nord11
+*.color10: nord14
+*.color11: nord13
+*.color12: nord9
+*.color13: nord15
+*.color14: nord7
+*.color15: nord6
+
+Xft.antialias:          1
+Xft.hinting:            1
+Xft.rgba:               rgb
+Xft.hintstyle:          hintslight
+Xft.lcdfilter:          lcddefault
+
+!! URxvt Appearence
+urxvt.font: xft:Fira Code Retina:style=Retina, xft:IBM Plex Mono:style=Regular
+urxvt.letterSpace: 0
+urxvt.lineSpace: 0
+urxvt.geometry: 92x24
+urxvt.internalBorder: 6
+urxvt.cursorBlink: true
+urxvt.cursorUnderline: false
+urxvt.saveline: 2048
+urxvt.scrollBar: off
+urxvt.scrollBar_right: false
+urxvt.urgentOnBell: true
+urxvt.depth: 24
+urxvt.iso14755: false
+
+!! URxvt Keybinds
+urxvt.keysym.Shift-Up: command:\033]720;1\007
+urxvt.keysym.Shift-Down: command:\033]721;1\007
+urxvt.keysym.Control-Up: \033[1;5A
+urxvt.keysym.Control-Down: \033[1;5B
+urxvt.keysym.Control-Right: \033[1;5C
+urxvt.keysym.Control-Left: \033[1;5D
+
+!! URxvt Clipboard and extensions
+urxvt.perl-ext-common: default,clipboard,url-select,keyboard-select
+urxvt.copyCommand: xclip -i -selection clipboard
+urxvt.pasteCommand: xclip -o -selection clipboard
+urxvt.keysym.M-c: perl:clipboard:copy
+urxvt.keysym.M-v: perl:clipboard:paste
+urxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+urxvt.keysym.M-Escape: perl:keyboard-select:activate
+urxvt.keysym.M-s: perl:keyboard-select:search
+urxvt.keysym.M-u: perl:url-select:select_next
+urxvt.urlLauncher: firefox
+urxvt.underlineURLs: true
+urxvt.urlButton: 1
