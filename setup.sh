@@ -4,6 +4,8 @@
 PACKAGES="python3 python3-pip python3-setuptools xclip zsh tmux neovim thefuck autojump bat curl gcc make cmake autoconf automake python3-docutils mono-complete nodejs npm default-jdk"
 DNF_PACKAGES="$PACKAGES python3-devel pkgconfig libseccomp-devel jansson-devel libyaml-devel libxml2-devel gcc-c++"
 DEBIAN_PACKAGES="$PACKAGES python3-dev pkg-config libseccomp-dev libjansson-dev libyaml-dev libxml2-dev build-essential"
+ARCH_PACKAGES="python3 xclip zsh tmux neovim thefuck bat curl gcc make cmake autoconf automake nodejs npm jre-openjdk"
+ARCH_AUR_PACKAGES="autojump"
 BREW_PACKAGES="python3 xclip zsh tmux neovim thefuck autojump bat curl gcc make cmake autoconf automake nodejs npm mono pkg-config"
 
 ## Any setup commands on new system
@@ -24,6 +26,7 @@ if [ "$machine" == "linux" ]; then
         ("fedora") printf "dnf install -y $DNF_PACKAGES" ;;
         ("debian") printf "apt install -y $DEBIAN_PACKAGES" ;;
         ("ubuntu") printf "apt install -y $DEBIAN_PACKAGES" ;;
+        ("arch") printf "pacman -S --noconfirm $ARCH_PACKAGES" ;;
     esac)
 
     if [ "$INSTALL_CMD" == "" ]; then
@@ -55,6 +58,22 @@ printf "~~> Installing packages\n"
 $INSTALL_CMD
 printf "Packages installed\n\n"
 
+# Install Arch AUR packages
+if [ "$DISTRO" == "arch" ]; then
+    printf "~~> Installing Arch AUR Packages\n"
+    if ! command -v yay &> /dev/null; then
+        printf "_ Installing yay _\n"
+        git clone https://aur.archlinux.org/yay.git /tmp/yay
+        cd /tmp/yay
+        makepkg -si
+        cd $HOME
+        rm -rf /tmp/yay
+    fi
+
+    yay -S --noconfirm $ARCH_AUR_PACKAGES
+    printf "AUR Packages installed\n\n"
+fi
+
 printf "\n\n"
 
 # Make sure in home dir
@@ -65,7 +84,7 @@ printf "~~> Setting ZSH as default shell\n"
 if [ "$SHELL" == "/bin/zsh" ]; then
     printf "ZSH is already the default shell, yay!"
 else
-    chsh -s /bin/zsh $USER
+    sudo chsh -s /bin/zsh $USER
 fi
 
 printf "\n\n"
