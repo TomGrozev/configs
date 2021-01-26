@@ -5,7 +5,8 @@ I basically just use this to initialise new machines & VMs. If you want to use s
 
 ## Cloning
 Run this in ~/
-```bash```
+```bash
 git init .
 git remote add -t \* -f origin https://github.com/TomGrozev/dotfiles
-git checkout master```
+git checkout master
+```
