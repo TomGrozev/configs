@@ -282,6 +282,9 @@ fi
 
 printf "\n\n"
 
+# Refresh XRDB
+xrdb ~/.Xresources
+
 # Use ZSH
 if [ "$SHELL" != "/bin/zsh" ]; then
     zsh
