@@ -72,9 +72,6 @@ urxvt.keysym.Control-Left: \033[1;5D
 urxvt.perl-ext-common: default,clipboard,url-select,keyboard-select
 urxvt.copyCommand: xclip -i -selection clipboard
 urxvt.pasteCommand: xclip -o -selection clipboard
-urxvt.keysym.M-c: perl:clipboard:copy
-urxvt.keysym.M-v: perl:clipboard:paste
-urxvt.keysym.M-C-v: perl:clipboard:paste_escaped
 urxvt.keysym.M-Escape: perl:keyboard-select:activate
 urxvt.keysym.M-s: perl:keyboard-select:search
 urxvt.keysym.M-u: perl:url-select:select_next
