@@ -29,6 +29,7 @@ from os import path
 # rust.vim https://github.com/rust-lang/rust.vim
 # vim-gist https://github.com/mattn/vim-gist
 # vim-ruby https://github.com/vim-ruby/vim-ruby
+# vim-visual-multi https://github.com/mg979/vim-visual-multi
 
 # --- Globals ----------------------------------------------
 PLUGINS = """
@@ -40,8 +41,8 @@ vim-fugitive https://github.com/tpope/vim-fugitive
 vim-elixir https://github.com/elixir-editors/vim-elixir
 ale https://github.com/w0rp/ale
 vim-surround https://github.com/tpope/vim-surround
+vim-multiple-cursors https://github.com/terryma/vim-multiple-cursors
 lightline.vim https://github.com/itchyny/lightline.vim
-vim-visual-multi https://github.com/mg979/vim-visual-multi
 nord-vim https://github.com/arcticicestudio/nord-vim
 ctrlp.vim https://github.com/ctrlpvim/ctrlp.vim
 ack.vim https://github.com/mileszs/ack.vim
