@@ -110,10 +110,10 @@ eval $(thefuck --alias)
 #export TERM=xterm-256color
 export TERM=rxvt-unicode-256color
 
-# Load dir colours
-test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
-
 source ~/.zplug/init.zsh
+
+# Load dir colours
+test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 
 # zplug plugins
 zplug "b4b4r07/enhancd", use:init.sh
