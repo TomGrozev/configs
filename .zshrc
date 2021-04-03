@@ -118,5 +118,8 @@ test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 # zplug plugins
 zplug "b4b4r07/enhancd", use:init.sh
 
+# Qubes specific
+export QUBES_GPG_DOMAIN=gpg-vault
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
