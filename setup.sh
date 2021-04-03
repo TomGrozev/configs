@@ -58,6 +58,9 @@ printf "~~> Installing packages\n"
 $INSTALL_CMD
 printf "Packages installed\n\n"
 
+# Syslink bat to batcat
+ln -s /usr/bin/batcat ~/.local/bin/bat
+
 # Install Arch AUR packages
 if [ "$DISTRO" == "arch" ]; then
     printf "~~> Installing Arch AUR Packages\n"
