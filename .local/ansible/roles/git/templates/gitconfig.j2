@@ -1,0 +1,81 @@
+[hub]
+    protocol = https
+
+[user]
+    email = {{ git_email }}
+    name = {{ git_name }}
+    signingkey = 9A2CFDE4
+
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = true
+
+[core]
+    excludesfile = ~/.gitignore_global
+    editor = nvim
+    pager = delta
+
+[delta]
+    plus-style = "syntax #96BE69"
+    minus-style = "syntax #BF616A"
+    navigate = true
+    side-by-side = true
+    line-numbers = true
+
+[interactive]
+    diffFilter = delta --color-only
+
+[apply]
+    whitespace = nowarn
+
+[mergetool]
+    keepBackup = false
+
+[difftool]
+    prompt = false
+
+[push]
+    default = simple
+    followTags = true
+
+[merge]
+    log = true
+    ff = false
+
+[commit]
+    gpgsign = true
+
+[gpg]
+    program = qubes-gpg-client-wrapper
+
+[status]
+    showUntrackedFiles = all
+
+[transfer]
+    fsckobjects = true
+
+[alias]
+    a = add
+    st = status
+    s = status
+    co = checkout
+    cob = checkout -b
+    c = checkout
+    ci = commit
+    noff = merge --no-ff
+    plr = pull --rebase
+    amend = commit --amend
+    br = branch
+    rn = branch -m
+
+    please = push --force-with-lease
+    publish = "!git push -u origin $(git rev-parse --abbrev-ref HEAD)"
+    publish = "!f() { git push -u ${1:-origin} $(git rev-parse --abbrev-ref HEAD);  }; f"
+
+    unstage = reset -q HEAD
+    discard = checkout --
+    uncomit = reset --mised HEAD~
+
+    l = log --grapg --decorate --oneline --all

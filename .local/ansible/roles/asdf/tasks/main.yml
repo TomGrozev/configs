@@ -1,0 +1,4 @@
+- name: Clone asdf repo
+  git:
+      repo: git@github.com:asdf-vm/asdf.git
+      dest: "~/.asdf"

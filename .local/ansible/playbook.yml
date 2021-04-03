@@ -1,0 +1,17 @@
+- name: Setup workstation
+  hosts: local
+  vars_prompt:
+      - name: git_name
+        prompt: "Your git full name to use for commits"
+        private: no
+
+      - name: git_email
+        prompt: "You git email to use for commits (use special github email)"
+        private: no
+  roles:
+      - name: os_packages
+        tags:
+            - 'base'
+      - name: git
+        tags:
+            - 'base'

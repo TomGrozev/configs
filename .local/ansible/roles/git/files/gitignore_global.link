@@ -1,0 +1,23 @@
+# Thumbnails
+._*
+
+# External disk files
+.Spotlight-V100
+.Traches
+
+## Intellij
+.idea
+
+## autoenv
+.env
+.autoenv
+.autoenv.zsh
+.ropeproject
+
+.python-version
+
+# vim session
+.session
+
+# project vimrc
+.vimrc

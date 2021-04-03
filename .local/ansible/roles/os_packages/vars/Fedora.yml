@@ -1,0 +1,20 @@
+packages:
+    - ansible
+    - build-essential
+    - curl
+    - fzf
+    - htop
+    - xclip
+    - thefuck
+    - autojump
+    - gcc
+    - make
+    - cmake
+    - autoconf
+    - automake
+    - mono-complete
+    - pkgconfig
+    - libseccomp-devel
+    - libjansson-devel
+    - libyaml-devel
+    - libxml2-devel

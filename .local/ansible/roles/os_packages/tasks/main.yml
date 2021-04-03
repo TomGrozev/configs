@@ -1,0 +1,14 @@
+- include_vars: "{{ item }}"
+  with_first_found:
+      - "../vars/{{ ansible_distribution }}.yml"
+      - "../vars/default.yml"
+  when: packages is not defined
+
+- name: Install packages
+  package:
+      name: "{{ item }}"
+      state: latest
+  become: yes
+  become_user: root
+  become_method: sudo
+  loop: "{{ packages }}"

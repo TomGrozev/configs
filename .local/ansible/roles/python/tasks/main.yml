@@ -1,0 +1,4 @@
+- name: Add python plugin for asdf
+  command: asdf plugin-add python
+  register: python_add
+  failed_when: python_add == 1
